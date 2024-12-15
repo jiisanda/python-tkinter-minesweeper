@@ -1,6 +1,6 @@
 # Python Version 2.7.3
 # File: minesweeper.py
-
+import json
 from tkinter import *
 from tkinter import messagebox as tkMessageBox
 from collections import deque
@@ -52,9 +52,11 @@ class Minesweeper:
         self.labels["mines"].grid(row = SIZE_X+1, column = 0, columnspan = int(SIZE_Y/2)) # bottom left
         self.labels["flags"].grid(row = SIZE_X+1, column = int(SIZE_Y/2)-1, columnspan = int(SIZE_Y/2)) # bottom right
 
+        self.end_time = ""
         self.restart() # start game
         self.updateTimer() # init timer
 
+    # This is from where we are going to get the created field  !IMP
     def setup(self):
         # create flag and clicked tile variables
         self.flagCount = 0
@@ -107,6 +109,9 @@ class Minesweeper:
                     mc += 1 if n["isMine"] else 0
                 self.tiles[x][y]["mines"] = mc
 
+        print(str(self.tiles))
+        # return str(self.tiles)
+
     def restart(self):
         self.setup()
         self.refreshLabels()
@@ -124,6 +129,7 @@ class Minesweeper:
                     self.tiles[x][y]["button"].config(image = self.images["mine"])
 
         self.tk.update()
+        print(self.end_time)
 
         msg = "You Win! Play again?" if won else "You Lose! Play again?"
         res = tkMessageBox.askyesno("Game Over", msg)
@@ -141,6 +147,7 @@ class Minesweeper:
                 ts = "0" + ts # zero-pad
         self.labels["time"].config(text = ts)
         self.frame.after(100, self.updateTimer)
+        self.end_time = ts
 
     def getNeighbors(self, x, y):
         neighbors = []
@@ -239,7 +246,7 @@ class Minesweeper:
         tile["state"] = STATE_CLICKED
         self.clickedCount += 1
 
-### END OF CLASSES ###
+## END OF CLASSES ###
 
 def main():
     # create Tk instance

@@ -1,0 +1,4 @@
+msgspec==0.18.6
+psycopg2==2.9.10
+pyzmq==26.2.0
+zeroapi==0.8.0
